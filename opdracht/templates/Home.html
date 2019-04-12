@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    {% include "navBar.html" %}
+</header>
+
+<body>
+    {% load static %}
+    <div class="home">
+        {% include "Background.html" %}
+
+        <div class="home_class1" id="home">
+            <br>
+            <h1>Choose a team</h1>
+            <img id="club-svg-2" src="{% static 'images/club.svg' %}">
+        </div>
+        <div id="white_circle" style="top: 38%; left: 31.5%"></div>
+        <div id="white_circle" style="top: 38%; left: 33.5%"></div>
+        <div id="white_circle" style="top: 38%; left: 35.5%"></div>
+        <div class="home_class2" id="home">
+            <br>
+            <h1>View match stats</h1>
+            <img id="team-svg-2" src="{% static 'images/soccer.svg' %}">
+        </div>
+        <div id="white_circle" style="top: 38%; left: 64.5%"></div>
+        <div id="white_circle" style="top: 38%; left: 66.5%"></div>
+        <div id="white_circle" style="top: 38%; left: 68.5%"></div>
+        <div class="home_class3" id="home">
+            <br>
+            <h1>View players</h1>
+            <img id="player-svg-2" src="{% static 'images/soccer-player.svg' %}">
+        </div>
+    </div>
+</body>
+</html>
