@@ -5,6 +5,28 @@
 </header>
 
 <body>
-    {% include "Background.html" %}
+    {% load static %}
+    <div class="home">
+        {% include "Background.html" %}
+        <div class="Clubs-1" id="clubs_country">
+            <br>
+            <h1>Choose a league</h1>
+            <img onclick="location.href='/'" id="country" src="{% static 'images/maps-and-location.svg' %}">
+        </div>
+        <div class="Clubs-2" id="clubs_country">
+            <br>
+            <h1>Choose a team</h1>
+            <img id="country" src="{% static 'images/plan.svg' %}">
+        </div>
+        <div class="Clubs-3" id="clubs_country">
+            <br>
+            <h1>Choose a season</h1>
+            <img id="country" src="{% static 'images/calendar.svg' %}">
+        </div>
+        <div class="Clubs-4" id="clubs_country">
+            <br>
+            <h1>Choose a match</h1>
+            <img id="country" src="{% static 'images/match.svg' %}">
+        </div>
 </body>
 </html>

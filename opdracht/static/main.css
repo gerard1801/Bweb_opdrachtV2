@@ -85,7 +85,7 @@ body {
 }
 
 #home {
-    background-color: #646464 ;
+    background-color: #545454;
     -webkit-border-radius: 250px;
     -moz-border-radius: 250px;
     border-radius: 250px;
@@ -119,4 +119,44 @@ body {
     border-radius: 5px;
     background: white;
     position: absolute;
+}
+
+.Clubs-1 {
+    position: absolute;
+    top: 15%;
+    left: 4%;
+}
+
+.Clubs-2 {
+    position: absolute;
+    top: 15%;
+    left: 30%;
+}
+
+.Clubs-3 {
+    position: absolute;
+    top: 15%;
+    left: 55%;
+}
+
+.Clubs-4 {
+    position: absolute;
+    top: 15%;
+    left: 77%;
+}
+
+#country {
+    height: 200px;
+    widht: 200px;
+    filter: invert(90%);
+}
+
+#clubs_country {
+    background-color: #545454 ;
+    width: 400px;
+    height: 400px;
+}
+
+.home #clubs_country:hover {
+    background-color: #646464;
 }
