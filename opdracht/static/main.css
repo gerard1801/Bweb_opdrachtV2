@@ -151,12 +151,17 @@ body {
     filter: invert(90%);
 }
 
-#clubs_country {
+#league, #team, #season, #match {
     background-color: #545454 ;
     width: 400px;
     height: 400px;
 }
 
-.home #clubs_country:hover {
+.home #league:hover, #team:hover, #season:hover, #match:hover {
     background-color: #646464;
+}
+
+#league-flags {
+    height: 200px;
+    widht: 200px;
 }
