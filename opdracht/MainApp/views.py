@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
 import sqlite3
 import pandas as pd
 import numpy as np
@@ -9,9 +10,20 @@ import matplotlib.pyplot as plt
 from collections import Counter
 from scipy.misc import imread
 import matplotlib.cbook as cbook
+from django.db import connection
+import sqlite3
 
 # Create your views here.
 def Club(request):
+    if request.method == 'POST':
+        if request.POST.get('flag-btn'):
+            conn = sqlite3.connect('/Users/gerardvanderwel/Downloads/database.sqlite')
+            c = conn.cursor()
+            global flag_id
+            flag_id = request.POST['flag-btn'][:]
+            c.execute("SELECT DISTINCT team_long_name FROM Team WHERE team_api_id IN (SELECT DISTINCT home_team_api_id FROM Match WHERE league_id=?)", (flag_id,))
+            all_rows = c.fetchall()
+            print(all_rows)
     return render(request, 'Club.html')
 
 def Match(request):
@@ -153,8 +165,8 @@ def test(request):
     cur = conn.cursor()
     tables = pd.read_sql("""SELECT *
                                 FROM Match 
-                                WHERE match_api_id=1989903;""", conn)
-    match_api_id = 1989903
+                                WHERE match_api_id=1032882;""", conn)
+    match_api_id = 1032882
     sql = 'SELECT * From MATCH WHERE match_api_id=?'
     cur.execute(sql, (match_api_id,))
     match = cur.fetchone()

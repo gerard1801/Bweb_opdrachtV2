@@ -1,4 +1,3 @@
-
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
@@ -17,7 +16,7 @@
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: #d6d6d6;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
@@ -41,7 +40,8 @@
 }
 
 /* The Close Button */
-.close {
+.close,
+.close-2{
   color: white;
   float: right;
   font-size: 28px;
@@ -49,7 +49,9 @@
 }
 
 .close:hover,
-.close:focus {
+.close:focus,
+.close-2:hover,
+.close-2:focus{
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -61,12 +63,48 @@
   color: white;
 }
 
-.modal-body {
+.btn-group {
     color: #555555;
-    padding: 2px 16px;}
+    padding: 2px 16px;
+    width: 100%;
+}
+
+
+.btn-group button {
+    background-color: #555555;
+
+}
 
 .modal-footer {
+  height: 50px;
   padding: 2px 16px;
   background-color: #545454;
   color: white;
+}
+
+.list-group {
+  display: block;
+  padding: 15px;
+}
+
+#bel-btn, #eng-btn, #fra-btn, #ger-btn, #ita-btn,
+#net-btn, #pol-btn, #por-btn, #sco-btn, #spa-btn, #swi-btn {
+  width: 80%;
+  padding-left: 50px;
+  background-color: white;
+  border-color: gray;
+}
+
+#bel-btn:hover, #eng-btn:hover, #fra-btn:hover,
+#ger-btn:hover, #ita-btn:hover, #net-btn:hover,
+#pol-btn:hover, #por-btn:hover, #sco-btn:hover,
+#spa-btn:hover, #swi-btn:hover {
+  background-color: gray;
+}
+
+
+#league-flags {
+  float: left;
+  margin: 5px;
+
 }
