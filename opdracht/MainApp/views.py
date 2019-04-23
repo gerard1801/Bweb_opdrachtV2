@@ -15,16 +15,26 @@ import sqlite3
 
 # Create your views here.
 def Club(request):
+    conn = sqlite3.connect('/Users/gerardvanderwel/Downloads/database.sqlite')
+    c = conn.cursor()
+    data = {}
+    club_data = {}
     if request.method == 'POST':
         if request.POST.get('flag-btn'):
-            conn = sqlite3.connect('/Users/gerardvanderwel/Downloads/database.sqlite')
-            c = conn.cursor()
-            global flag_id
             flag_id = request.POST['flag-btn'][:]
             c.execute("SELECT DISTINCT team_long_name FROM Team WHERE team_api_id IN (SELECT DISTINCT home_team_api_id FROM Match WHERE league_id=?)", (flag_id,))
-            all_rows = c.fetchall()
-            print(all_rows)
-    return render(request, 'Club.html')
+            data = c.fetchall()
+            print(data)
+    if request.method == 'POST':
+        if request.POST.get('club-btn'):
+            club_id = request.POST['club-btn'][:]
+            c.execute("SELECT DISTINCT season FROM Match WHERE home_team_api_id IN (SELECT team_api_id FROM Team WHERE team_long_name == ?)", (club_id,))
+            club_data = c.fetchall()
+            print(club_data)
+    return render(request, 'Club.html', {
+        'data': data,
+        'club_data': club_data,
+    })
 
 def Match(request):
     return render(request, 'Match.html')
