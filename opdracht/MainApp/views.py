@@ -19,24 +19,127 @@ def Club(request):
     c = conn.cursor()
     data = {}
     club_data = {}
+    season_data = {}
+
     if request.method == 'POST':
         if request.POST.get('flag-btn'):
             flag_id = request.POST['flag-btn'][:]
-            c.execute("SELECT DISTINCT team_long_name FROM Team WHERE team_api_id IN (SELECT DISTINCT home_team_api_id FROM Match WHERE league_id=?)", (flag_id,))
+            c.execute("SELECT DISTINCT team_long_name, team_api_id FROM Team WHERE team_api_id IN (SELECT DISTINCT home_team_api_id FROM Match WHERE league_id=?)", (flag_id,))
             data = c.fetchall()
             print(data)
     if request.method == 'POST':
         if request.POST.get('club-btn'):
+            global club_id
             club_id = request.POST['club-btn'][:]
             c.execute("SELECT DISTINCT season FROM Match WHERE home_team_api_id IN (SELECT team_api_id FROM Team WHERE team_long_name == ?)", (club_id,))
             club_data = c.fetchall()
             print(club_data)
+    if request.method == 'POST':
+        if request.POST.get('season-btn'):
+            season_id = request.POST['season-btn'][:]
+
+            print(club_id)
+
+            c.execute("SELECT team_api_id FROM Team WHERE team_long_name == ?", (club_id,))
+            new_id = c.fetchall()
+            new_id = (new_id[0][0])
+            c.execute("SELECT m.match_api_id, m.home_team_api_id, m.away_team_api_id, t.team_long_name, t2.team_long_name FROM Match m INNER JOIN Team t ON m.home_team_api_id=t.team_api_id INNER JOIN Team t2 ON m.away_team_api_id=t2.team_api_id WHERE m.home_team_api_id=? AND m.season=? OR m.away_team_api_id=? AND m.season=?", (new_id, season_id, new_id, season_id,))
+            season_data = c.fetchall()
+            print(season_data)
+    if request.method == 'POST':
+        if request.POST.get('match-btn'):
+            match_id = request.POST['match-btn'][:]
+            print(match_id)
+
+
     return render(request, 'Club.html', {
         'data': data,
         'club_data': club_data,
+        'season_data': season_data,
     })
 
 def Match(request):
+    database = '/Users/gerardvanderwel/Downloads/database.sqlite'
+    conn = sqlite3.connect(database)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    tables = pd.read_sql("""SELECT *
+                                FROM Match 
+                                WHERE match_api_id=1988797;""", conn)
+    match_api_id = 1988797
+    sql = 'SELECT * From MATCH WHERE match_api_id=?'
+    cur.execute(sql, (match_api_id,))
+    match = cur.fetchone()
+
+    home_players_api_id = list()
+    away_players_api_id = list()
+    home_players_x = list()
+    away_players_x = list()
+    home_players_y = list()
+    away_players_y = list()
+
+    for i in range(1, 12):
+        home_players_api_id.append(match['home_player_%d' % i])
+        away_players_api_id.append(match['away_player_%d' % i])
+        home_players_x.append(match['home_player_X%d' % i])
+        away_players_x.append(match['away_player_X%d' % i])
+        home_players_y.append(match['home_player_Y%d' % i])
+        away_players_y.append(match['away_player_Y%d' % i])
+
+    print('Example, home players api id: ')
+    print(home_players_api_id)
+
+    players_api_id = [home_players_api_id, away_players_api_id]
+    players_api_id.append(home_players_api_id)  # Home
+    players_api_id.append(away_players_api_id)  # Away
+    players_names = [[None] * 11, [None] * 11]
+
+    for i in range(2):
+        players_api_id_not_none = [x for x in players_api_id[i] if x is not None]
+        sql = 'SELECT player_api_id,player_name FROM Player'
+        sql += ' WHERE player_api_id IN (' + ','.join(map(str, players_api_id_not_none)) + ')'
+        cur.execute(sql)
+        players = cur.fetchall()
+        for player in players:
+            idx = players_api_id[i].index(player['player_api_id'])
+            name = player['player_name'].split()[-1]  # keep only the last name
+            players_names[i][idx] = name
+
+    print('Home team players names:')
+    print(players_names[0])
+    print('Away team players names:')
+    print(players_names[1])
+
+    home_players_x = [5 if x == 1 else x for x in home_players_x]
+    away_players_x = [5 if x == 1 else x for x in away_players_x]
+
+    datafile = cbook.get_sample_data(
+        '/Users/gerardvanderwel/PycharmProjects/Bweb_opdrachtV2/opdracht/static/images/Soccer_Field_Transparant.png')
+    img = imread(datafile)
+    fig, ax = plt.subplots()
+    x = [0, 10, 100]
+    # plt.scatter(x, y, zorder=1)
+    ax.imshow(img, extent=[0.0, 100.0, 0.0, 120.0])
+    print('Home players: ' + str(home_players_x))
+    home_plot_x = []
+    home_plot_y = []
+    for i in home_players_x:
+        home_plot_x.append(i * 10)
+    for i in home_players_y:
+        home_plot_y.append(i * 10)
+
+    print(home_plot_x)
+    print(home_plot_y)
+    print('Home players: ' + str(home_players_x))
+    ax.plot(home_plot_x, home_plot_y, 'ro', color='firebrick')
+    for label, x, y in zip(players_names[0], home_plot_x, home_plot_y):
+        ax.annotate(
+            label,
+            xy=(x, y), xytext=(-10, 5),
+            textcoords='offset points', va='bottom')
+    #ax.scatter(home_players_x, home_players_y, s=100, c='blue')
+    # ax.set_xticks([])
+    plt.savefig("./static/images/test.png")
     return render(request, 'Match.html')
 
 def Player(request):
@@ -44,6 +147,12 @@ def Player(request):
 
 def Home(request):
     return render(request, 'Home.html')
+
+
+
+
+
+
 
 
 def Opstelling(request):

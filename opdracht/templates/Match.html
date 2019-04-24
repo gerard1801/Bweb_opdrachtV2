@@ -5,7 +5,13 @@
 </header>
 
 <body>
-    {% include "Background.html" %}
+    {% load static %}
+    <div class="Match">
+        {% include "Background.html" %}
+        <div>
+            <img src="{% static 'images/test.png' %}">
+        </div>
+    </div>
 </body>
 </html>
 

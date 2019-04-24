@@ -91,18 +91,42 @@
               <h2>Choose a league</h2>
                 </div>
                 <form method="post">
-                    hallo
+                    {% csrf_token %}
+                    {% for seasons in club_data %}
+                        <a><button name="season-btn" value="{{seasons.0}}">{{seasons.0}}</button></a>
+                    {% endfor %}
                 </form>
                 <div class="modal-footer">
             </div>
           </div>
         </div>
 
+        <!-- The Modal -->
+        <div id="myModal-4" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <span class="close-4">&times;</span>
+              <h2>Choose a league</h2>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for match in season_data %}
+                        <a><button name="match-btn" value="{{match.0}}">{{match.3}} - {{match.4}}</button></a>
+                    {% endfor %}
+                </form>
+                <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+
+
+
         <script src="{% static 'javascript/league_modal.js' %}"></script>
         <script src="{% static 'javascript/team_modal.js' %}"></script>
         <script src="{% static 'javascript/season_modal.js' %}"></script>
-
-
+        <script src="{% static 'javascript/match_modal.js' %}"></script>
     </div>
 
 
