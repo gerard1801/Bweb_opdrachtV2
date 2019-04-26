@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<header>
+<head>
     {% include "navBar.html" %}
-</header>
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-1.0.2.min.css" rel="stylesheet" type="text/css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.2.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.0.2.min.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-compiler-1.0.2.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.0.2.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.2.min.js"></script>
+    <script src="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.0.2.min.js"></script>
+
+
+</head>
 
 <body>
     {% load static %}
     <div class="Match">
         {% include "Background.html" %}
-        <div>
-            <img src="{% static 'images/test.png' %}">
-        </div>
+        {% include "bokeh2.html" %}
+
     </div>
 </body>
 </html>

@@ -22,5 +22,5 @@ urlpatterns = [
     path('', views.Home),
     path('club', views.Club),
     path('match', views.Match),
-    path('player', views.test),
+    path('player', views.Player),
 ]

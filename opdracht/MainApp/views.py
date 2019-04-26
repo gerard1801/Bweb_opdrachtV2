@@ -11,6 +11,14 @@ from collections import Counter
 from scipy.misc import imread
 import matplotlib.cbook as cbook
 from django.db import connection
+from bokeh.plotting import figure, output_file, show, save
+from bokeh.models import OpenURL, TapTool, ColumnDataSource, HoverTool
+from bokeh.models.callbacks import CustomJS
+from bokeh.embed import components
+from bokeh.resources import INLINE
+from bokeh.resources import CDN
+from bokeh.embed import file_html
+
 import sqlite3
 
 # Create your views here.
@@ -64,12 +72,13 @@ def Match(request):
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     tables = pd.read_sql("""SELECT *
-                                FROM Match 
-                                WHERE match_api_id=1988797;""", conn)
+                                    FROM Match 
+                                    WHERE match_api_id=1988797;""", conn)
     match_api_id = 1988797
     sql = 'SELECT * From MATCH WHERE match_api_id=?'
     cur.execute(sql, (match_api_id,))
     match = cur.fetchone()
+    print(match)
 
     home_players_api_id = list()
     away_players_api_id = list()
@@ -85,9 +94,6 @@ def Match(request):
         away_players_x.append(match['away_player_X%d' % i])
         home_players_y.append(match['home_player_Y%d' % i])
         away_players_y.append(match['away_player_Y%d' % i])
-
-    print('Example, home players api id: ')
-    print(home_players_api_id)
 
     players_api_id = [home_players_api_id, away_players_api_id]
     players_api_id.append(home_players_api_id)  # Home
@@ -105,48 +111,39 @@ def Match(request):
             name = player['player_name'].split()[-1]  # keep only the last name
             players_names[i][idx] = name
 
-    print('Home team players names:')
-    print(players_names[0])
-    print('Away team players names:')
-    print(players_names[1])
-
     home_players_x = [5 if x == 1 else x for x in home_players_x]
     away_players_x = [5 if x == 1 else x for x in away_players_x]
 
     datafile = cbook.get_sample_data(
         '/Users/gerardvanderwel/PycharmProjects/Bweb_opdrachtV2/opdracht/static/images/Soccer_Field_Transparant.png')
-    img = imread(datafile)
-    fig, ax = plt.subplots()
-    x = [0, 10, 100]
-    # plt.scatter(x, y, zorder=1)
-    ax.imshow(img, extent=[0.0, 100.0, 0.0, 120.0])
-    print('Home players: ' + str(home_players_x))
+
     home_plot_x = []
     home_plot_y = []
     for i in home_players_x:
-        home_plot_x.append(i * 10)
+        home_plot_x.append(i * 50)
     for i in home_players_y:
-        home_plot_y.append(i * 10)
+        home_plot_y.append(i * 50)
 
-    print(home_plot_x)
-    print(home_plot_y)
-    print('Home players: ' + str(home_players_x))
-    ax.plot(home_plot_x, home_plot_y, 'ro', color='firebrick')
-    for label, x, y in zip(players_names[0], home_plot_x, home_plot_y):
-        ax.annotate(
-            label,
-            xy=(x, y), xytext=(-10, 5),
-            textcoords='offset points', va='bottom')
-    #ax.scatter(home_players_x, home_players_y, s=100, c='blue')
-    # ax.set_xticks([])
-    plt.savefig("./static/images/test.png")
+    output_file("line.html")
+    p = figure(title="opstelling", x_range=(0, 500), y_range=(0, 600), tools="tap")
+    p.image_url(url=['/static/images/Soccer_Field_Transparant.png'], x=0, y=600, w=500, h=600)
+    p.circle(home_plot_x, home_plot_y, size=20)
+    url = "Player.html"
+    taptool = p.select(type=TapTool)
+    taptool.callback = CustomJS(code="""          
+                window.open("http://127.0.0.1:8000/player" ,"_self");
+                """)
+    output_file("templates/bokeh2.html")
+    save(p)
+
+
     return render(request, 'Match.html')
 
 def Player(request):
     return render(request, 'Player.html')
 
 def Home(request):
-    return render(request, 'Home.html')
+    return render(request, 'bokeh.html')
 
 
 
@@ -284,11 +281,12 @@ def test(request):
     cur = conn.cursor()
     tables = pd.read_sql("""SELECT *
                                 FROM Match 
-                                WHERE match_api_id=1032882;""", conn)
-    match_api_id = 1032882
+                                WHERE match_api_id=1988797;""", conn)
+    match_api_id = 1988797
     sql = 'SELECT * From MATCH WHERE match_api_id=?'
     cur.execute(sql, (match_api_id,))
     match = cur.fetchone()
+    print(match)
 
     home_players_api_id = list()
     away_players_api_id = list()
@@ -305,13 +303,11 @@ def test(request):
         home_players_y.append(match['home_player_Y%d' % i])
         away_players_y.append(match['away_player_Y%d' % i])
 
-    print('Example, home players api id: ')
-    print(home_players_api_id)
-
     players_api_id = [home_players_api_id, away_players_api_id]
     players_api_id.append(home_players_api_id)  # Home
     players_api_id.append(away_players_api_id)  # Away
     players_names = [[None] * 11, [None] * 11]
+
 
     for i in range(2):
         players_api_id_not_none = [x for x in players_api_id[i] if x is not None]
@@ -324,52 +320,31 @@ def test(request):
             name = player['player_name'].split()[-1]  # keep only the last name
             players_names[i][idx] = name
 
-    print('Home team players names:')
-    print(players_names[0])
-    print('Away team players names:')
-    print(players_names[1])
-
     home_players_x = [5 if x == 1 else x for x in home_players_x]
     away_players_x = [5 if x == 1 else x for x in away_players_x]
 
     datafile = cbook.get_sample_data(
         '/Users/gerardvanderwel/PycharmProjects/Bweb_opdrachtV2/opdracht/static/images/Soccer_Field_Transparant.png')
-    img = imread(datafile)
-    fig, ax = plt.subplots()
-    x = [0, 10, 100]
-    # plt.scatter(x, y, zorder=1)
-    ax.imshow(img, extent=[0.0, 100.0, 0.0, 120.0])
-    print('Home players: ' + str(home_players_x))
+
+
     home_plot_x = []
     home_plot_y = []
     for i in home_players_x:
-        home_plot_x.append(i * 10)
+        home_plot_x.append(i * 50)
     for i in home_players_y:
-        home_plot_y.append(i * 10)
+        home_plot_y.append(i * 50)
 
-    print(home_plot_x)
-    print(home_plot_y)
-    print('Home players: ' + str(home_players_x))
-    ax.plot(home_plot_x, home_plot_y, 'ro', color='firebrick')
-    for label, x, y in zip(players_names[0], home_plot_x, home_plot_y):
-        ax.annotate(
-            label,
-            xy=(x, y), xytext=(-10, 5),
-            textcoords='offset points', va='bottom')
-    #ax.scatter(home_players_x, home_players_y, s=100, c='blue')
-    # ax.set_xticks([])
-    plt.savefig("./static/images/test.png")
-    return render(request, 'Match.html')
-'''
-    plt.subplot(2, 1, 1)
-    plt.rc('grid', linestyle="-", color='black')
-    plt.rc('figure', figsize=(12, 20))
-    plt.gca().invert_yaxis()  # Invert y axis to start with the goalkeeper at the top
-    for label, x, y in zip(players_names[0], home_players_x, home_players_y):
-        plt.annotate(
-            label,
-            xy=(x, y), xytext=(-20, 20),
-            textcoords='offset points', va='bottom')
-    plt.scatter(home_players_x, home_players_y, s=100, c='blue')
-    plt.grid(True)
-'''
+    output_file("line.html")
+    p = figure(title="opstelling", x_range=(0,500), y_range=(0,600), tools="tap")
+    p.image_url(url=['/static/images/Soccer_Field_Transparant.png'], x=0, y=600, w=500, h=600)
+    p.circle(home_plot_x, home_plot_y, size=20)
+    url = "Player.html"
+    taptool = p.select(type=TapTool)
+    taptool.callback = CustomJS(code="""          
+            window.open("http://127.0.0.1:8000/player" ,"_self");
+            """)
+    output_file("templates/bokeh2.html")
+    save(p)
+
+    return render(request, 'Player.html')
+
