@@ -56,8 +56,12 @@ def Club(request):
             print(season_data)
     if request.method == 'POST':
         if request.POST.get('match-btn'):
+            global match_id
             match_id = request.POST['match-btn'][:]
             print(match_id)
+            request.session['match_id'] = match_id
+            return HttpResponseRedirect('/match')
+
 
 
     return render(request, 'Club.html', {
@@ -71,12 +75,14 @@ def Match(request):
     conn = sqlite3.connect(database)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
+    print("match_ID")
+    print(match_id)
     tables = pd.read_sql("""SELECT *
                                     FROM Match 
                                     WHERE match_api_id=1988797;""", conn)
     match_api_id = 1988797
     sql = 'SELECT * From MATCH WHERE match_api_id=?'
-    cur.execute(sql, (match_api_id,))
+    cur.execute(sql, (match_id,))
     match = cur.fetchone()
     print(match)
 
@@ -114,9 +120,6 @@ def Match(request):
     home_players_x = [5 if x == 1 else x for x in home_players_x]
     away_players_x = [5 if x == 1 else x for x in away_players_x]
 
-    datafile = cbook.get_sample_data(
-        '/Users/gerardvanderwel/PycharmProjects/Bweb_opdrachtV2/opdracht/static/images/Soccer_Field_Transparant.png')
-
     home_plot_x = []
     home_plot_y = []
     for i in home_players_x:
@@ -125,14 +128,16 @@ def Match(request):
         home_plot_y.append(i * 50)
 
     output_file("line.html")
-    p = figure(title="opstelling", x_range=(0, 500), y_range=(0, 600), tools="tap")
+    p = figure(x_range=(0, 500), y_range=(0, 600), tools="tap")
     p.image_url(url=['/static/images/Soccer_Field_Transparant.png'], x=0, y=600, w=500, h=600)
     p.circle(home_plot_x, home_plot_y, size=20)
-    url = "Player.html"
     taptool = p.select(type=TapTool)
     taptool.callback = CustomJS(code="""          
                 window.open("http://127.0.0.1:8000/player" ,"_self");
                 """)
+    p.axis.visible = False
+    p.grid.visible = False
+    p.toolbar_location = None
     output_file("templates/bokeh2.html")
     save(p)
 
