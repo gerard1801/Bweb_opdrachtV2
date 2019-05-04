@@ -8,7 +8,13 @@
     {% load static %}
     <div class="Match">
         {% include "Background.html" %}
-        <h1>{{match_id}}</h1>
+        <h2>{{thuis_team.0.0}}-{{uit_team.0.0}}</h2>
+        <h1>{{thuis_goals.0.0}}-{{uit_goals.0.0}}</h1>
+        fouls: {{thuis_fouls}} {{uit_fouls}}<br>
+        shots on: {{thuis_shotson}} {{uit_shotson}}<br>
+        shots off: {{thuis_shotsoff}} {{uit_shotsoff}}<br>
+        crosses: {{thuis_crosses}} {{uit_crosses}}<br>
+        corners: {{thuis_corners}} {{uit_corners}}<br>
         {% include "bokeh2.html" %}
 
     </div>
