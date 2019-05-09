@@ -7,10 +7,11 @@
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  height: 90%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
 }
 
 /* Modal Content */
@@ -21,11 +22,13 @@
   padding: 0;
   border: 1px solid #888;
   width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  height: auto;
+  overflow: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
 
 /* Add Animation */
@@ -69,18 +72,6 @@
   color: white;
 }
 
-.btn-group {
-    color: #555555;
-    padding: 2px 16px;
-    width: 100%;
-}
-
-
-.btn-group button {
-    background-color: #555555;
-
-}
-
 .modal-footer {
   height: 50px;
   padding: 2px 16px;
@@ -94,8 +85,8 @@
 }
 
 #bel-btn, #eng-btn, #fra-btn, #ger-btn, #ita-btn,
-#net-btn, #pol-btn, #por-btn, #sco-btn, #spa-btn, #swi-btn {
-  width: 80%;
+#net-btn, #pol-btn, #por-btn, #sco-btn, #spa-btn, #swi-btn, #club-btn, #season-btn, #match-btn {
+  width: 60%;
   padding-left: 50px;
   background-color: white;
   border-color: gray;
@@ -104,7 +95,8 @@
 #bel-btn:hover, #eng-btn:hover, #fra-btn:hover,
 #ger-btn:hover, #ita-btn:hover, #net-btn:hover,
 #pol-btn:hover, #por-btn:hover, #sco-btn:hover,
-#spa-btn:hover, #swi-btn:hover {
+#spa-btn:hover, #swi-btn:hover, #club-btn:hover,
+#season-btn:hover, #match-btn:hover{
   background-color: gray;
 }
 

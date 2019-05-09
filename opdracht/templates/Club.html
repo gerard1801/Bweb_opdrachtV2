@@ -69,13 +69,15 @@
             <div class="modal-header">
               <span class="close-2">&times;</span>
               <h2>Choose a league</h2>
-                </div>
+            </div>
+                <div class="list-group">
                 <form method="post">
                     {% csrf_token %}
                     {% for clubs in data %}
-                        <a><button name="club-btn" value="{{clubs.0}}">{{clubs.0}}</button></a>
+                        <a><button id="club-btn" name="club-btn" value="{{clubs.0}}">{{clubs.0}}</button></a>
                     {% endfor %}
                 </form>
+                </div>
                 <div class="modal-footer">
             </div>
           </div>
@@ -89,13 +91,15 @@
             <div class="modal-header">
               <span class="close-3">&times;</span>
               <h2>Choose a league</h2>
-                </div>
+            </div>
+                <div class="list-group" >
                 <form method="post">
                     {% csrf_token %}
                     {% for seasons in club_data %}
-                        <a><button name="season-btn" value="{{seasons.0}}">{{seasons.0}}</button></a>
+                        <a><button id="season-btn" name="season-btn" value="{{seasons.0}}">{{seasons.0}}</button></a>
                     {% endfor %}
                 </form>
+                </div>
                 <div class="modal-footer">
             </div>
           </div>
@@ -109,17 +113,41 @@
             <div class="modal-header">
               <span class="close-4">&times;</span>
               <h2>Choose a league</h2>
-                </div>
+            </div>
+              <div class="list-group">
                 <form method="post">
                     {% csrf_token %}
                     {% for match in season_data %}
-                        <a><button name="match-btn" value="{{match.0}}">{{match.3}} - {{match.4}}</button></a>
+                        <a><button id="match-btn" name="match-btn" value="{{match.0}}">{{match.3}} - {{match.4}}</button></a>
                     {% endfor %}
                 </form>
+              </div>
                 <div class="modal-footer">
             </div>
           </div>
         </div>
+        <div class="label">
+            <label>Select a home and/or away team:</label>
+        </div>
+        <form method="post" action="match">
+            {% csrf_token %}
+            <div class="radio-btn">
+                <label class="container">Both
+                    <input type="radio" id="radion-btn" name="radio"  value="Beide" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container">Home
+                    <input type="radio" id="radion-btn1" name="radio" value="Thuis">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container">Away
+                    <input type="radio" id="radion-btn2" name="radio" value="Uit">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <input type="submit" class="button" id="go_button"  value="Go >>">
+        </form>
+
 
 
 

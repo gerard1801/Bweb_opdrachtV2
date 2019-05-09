@@ -3,32 +3,24 @@
 <head>
     {% include "navBar.html" %}
 </head>
-
 <body>
     {% load static %}
-    <div class="Match">
+    <div class="Match_v2">
         {% include "Background.html" %}
-        <div class="match_stats">
+        <h5>Away team</h5>
+        <div class="match_stats_v2">
             <h1>{{thuis_team.0.0}} - {{uit_team.0.0}}</h1>
             <h1>{{thuis_goals.0.0}} - {{uit_goals.0.0}}</h1>
         </div>
-            <div class="thuis">
-                {{thuis_shotson}}<br>
-                {{thuis_shotsoff}}<br>
-                {{thuis_fouls}}<br>
-                {{thuis_crosses}}<br>
-                {{thuis_corners}}<br>
-                {{home_pos}}<br>
-            </div>
-            <div class="stats">
+        <div class="stats_v2">
                 Shots on<br>
                 Shots off<br>
                 Fouls<br>
                 Crosses<br>
                 Corners<br>
                 Possession<br>
-            </div>
-            <div class="uit">
+        </div>
+            <div class="thuis_v2">
                 {{uit_shotson}}<br>
                 {{uit_shotsoff}}<br>
                 {{uit_fouls}}<br>
@@ -36,14 +28,11 @@
                 {{uit_corners}}<br>
                 {{away_pos}}<br>
             </div>
-        <div class="opstelling"><h1 id="for">Formation</h1></div>
-        <div class="bokeh_thuis">
-            {% include "bokeh_thuis.html" %}
-        </div>
-        <div class="bokeh_uit">
+
+        <div class="opstelling_v2"><h1 id="for"></h1></div>
+        <div class="bokeh_thuis_v2">
             {% include "bokeh_uit.html" %}
         </div>
     </div>
 </body>
 </html>
-

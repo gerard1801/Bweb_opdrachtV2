@@ -124,19 +124,19 @@ body {
 .Clubs-1 {
     position: absolute;
     top: 15%;
-    left: 4%;
+    left: 2%;
 }
 
 .Clubs-2 {
     position: absolute;
     top: 15%;
-    left: 30%;
+    left: 27%;
 }
 
 .Clubs-3 {
     position: absolute;
     top: 15%;
-    left: 55%;
+    left: 52%;
 }
 
 .Clubs-4 {
@@ -161,7 +161,281 @@ body {
     background-color: #646464;
 }
 
-#league-flags {
+#league-flags, #club-btn, #season-btn, #match-btn {
     height: 50px;
-    widht: 50px;
+    widht: 150px;
 }
+
+.match_stats {
+    background-color: #555555;
+    text-align: center;
+    position: absolute;
+    width: 50%;
+    top: 200px;
+    left: 25%;
+}
+
+.stats {
+    background-color: #717171;
+    text-align: center;
+    position: absolute;
+    width: 50%;
+    height: 350px;
+    top: 338px;
+    left: 25%;
+    font-size: 40px;
+    z-index: 0;
+}
+
+.thuis {
+
+    text-align: center;
+    position: absolute;
+    width: 10%;
+    height: 350px;
+    top: 338px;
+    left: 28%;
+    font-size: 40px;
+    z-index: 1;
+}
+
+.uit {
+    background-color: #717171;
+    text-align: center;
+    position: absolute;
+    width: 10%;
+    height: 350px;
+    top: 338px;
+    left: 62%;
+    font-size: 40px;
+}
+
+.bokeh_thuis {
+    position: absolute;
+    top: 750px;
+    left: 14%;
+}
+
+.bokeh_uit {
+    position: absolute;
+    top: 750px;
+    left: 54%;
+}
+
+.opstelling #for{
+    position: absolute;
+    top: 680px;
+    left: 46%;
+}
+
+.pace {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 200px;
+    top: 250px;
+    left: 10%;
+}
+
+.shooting {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 200px;
+    top: 250px;
+    left: 23%;
+}
+
+.passing {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 200px;
+    top: 250px;
+    left: 36%;
+}
+
+.dribbling {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 220px;
+    top: 250px;
+    left: 49%;
+}
+
+.defence {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 200px;
+    top: 250px;
+    left: 63%;
+}
+
+.physical {
+    border-right: 3px solid #b7b7b7;
+    padding-right: 15px;
+    position: absolute;
+    height: 700px;
+    width: 200px;
+    top: 250px;
+    left: 76%;
+}
+
+h3 {
+    font-size: 50px;
+}
+
+h4 {
+    font-size: 20px;
+}
+
+.bokeh_thuis_v2 {
+    position: absolute;
+    top: 300px;
+    left: 60%
+}
+
+
+.match_stats_v2 {
+    background-color: #555555;
+    text-align: center;
+    position: absolute;
+    width: 50%;
+    top: 300px;
+    left: 5%;
+}
+
+.stats_v2 {
+    background-color: #717171;
+    text-align: left;
+    padding-left: 50px;
+    position: absolute;
+    width: 47.5%;
+    height: 350px;
+    top: 438px;
+    left: 5%;
+    font-size: 40px;
+    z-index: 0;
+}
+
+.thuis_v2 {
+    text-align: center;
+    position: absolute;
+    width: 10%;
+    height: 350px;
+    top: 438px;
+    left: 15%;
+    font-size: 40px;
+    z-index: 1;
+}
+
+.Match_v2 h5 {
+    font-size: 30px;
+    position: absolute;
+    top: 17%;
+    left: 50%
+}
+
+#go_button {
+    position: absolute;
+    font-size: 40px;
+    color: white;
+    padding: 30px 50px;
+    border: none;
+    display: inline-block;
+    top: 60%;
+    left: 52%;
+    background-color: #555;
+}
+
+.radio-btn {
+    position: absolute;
+    top: 60%;
+    left: 41%;
+}
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+  /* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+.label {
+    position: absolute;
+    font-size: 25px;
+    top: 63.5%;
+    left: 23%;
+}
+
+.no_data {
+    color: white;
+    position: absolute;
+    top: 32%;
+    left: 47%
+}
+
+

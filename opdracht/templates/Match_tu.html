@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "navBar.html" %}
+</head>
+<body>
+    {% load static %}
+    <div class="Match_v2">
+        {% include "Background.html" %}
+        <h5>Home team</h5>
+        <div class="match_stats_v2">
+            <h1>{{thuis_team.0.0}} - {{uit_team.0.0}}</h1>
+            <h1>{{thuis_goals.0.0}} - {{uit_goals.0.0}}</h1>
+        </div>
+        <div class="stats_v2">
+                Shots on<br>
+                Shots off<br>
+                Fouls<br>
+                Crosses<br>
+                Corners<br>
+                Possession<br>
+        </div>
+            <div class="thuis_v2">
+                {{thuis_shotson}}<br>
+                {{thuis_shotsoff}}<br>
+                {{thuis_fouls}}<br>
+                {{thuis_crosses}}<br>
+                {{thuis_corners}}<br>
+                {{home_pos}}<br>
+            </div>
+
+        <div class="opstelling_v2"><h1 id="for"></h1></div>
+        <div class="bokeh_thuis_v2">
+            {% include "bokeh_thuis.html" %}
+        </div>
+    </div>
+</body>
+</html>
