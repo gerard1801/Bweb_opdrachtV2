@@ -27,33 +27,26 @@ def Club(request):
             flag_id = request.POST['flag-btn'][:]
             c.execute("SELECT DISTINCT team_long_name, team_api_id FROM Team WHERE team_api_id IN (SELECT DISTINCT home_team_api_id FROM Match WHERE league_id=?)", (flag_id,))
             data = c.fetchall()
-            print(data)
+
     if request.method == 'POST':
         if request.POST.get('club-btn'):
             global club_id
             club_id = request.POST['club-btn'][:]
             c.execute("SELECT DISTINCT season FROM Match WHERE home_team_api_id IN (SELECT team_api_id FROM Team WHERE team_long_name == ?)", (club_id,))
             club_data = c.fetchall()
-            print(club_data)
+
     if request.method == 'POST':
         if request.POST.get('season-btn'):
             season_id = request.POST['season-btn'][:]
-
-            print(club_id)
-
             c.execute("SELECT team_api_id FROM Team WHERE team_long_name == ?", (club_id,))
             new_id = c.fetchall()
             new_id = (new_id[0][0])
             c.execute("SELECT m.match_api_id, m.home_team_api_id, m.away_team_api_id, t.team_long_name, t2.team_long_name FROM Match m INNER JOIN Team t ON m.home_team_api_id=t.team_api_id INNER JOIN Team t2 ON m.away_team_api_id=t2.team_api_id WHERE m.home_team_api_id=? AND m.season=? OR m.away_team_api_id=? AND m.season=?", (new_id, season_id, new_id, season_id,))
             season_data = c.fetchall()
-            print(season_data)
     if request.method == 'POST':
-        print(request.POST)
         if request.POST.get('match-btn'):
             global match_id
             match_id = request.POST['match-btn'][:]
-            print(match_id)
-            print(request.POST)
 
             #return HttpResponseRedirect('/match')
     return render(request, 'Club.html', {
@@ -71,12 +64,9 @@ def Match(request):
         conn = sqlite3.connect(database)
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        print("match_ID")
-        print(match_id)
         sql = 'SELECT * From MATCH WHERE match_api_id=?'
         cur.execute(sql, (match_id,))
         match = cur.fetchone()
-        print(match)
 
         home_players_api_id = list()
         away_players_api_id = list()
@@ -185,10 +175,8 @@ def Match(request):
         c = conn.cursor()
         thuis_goals = c.execute("SELECT home_team_goal FROM MATCH WHERE match_api_id=?", (match_id,))
         thuis_goals = thuis_goals.fetchall()
-        print(thuis_goals)
         uit_goals = c.execute("SELECT away_team_goal FROM MATCH WHERE match_api_id=?", (match_id,))
         uit_goals = uit_goals.fetchall()
-        print(uit_goals)
         thuis_team = c.execute("SELECT team_long_name FROM Team WHERE team_api_id IN(SELECT home_team_api_id from Match WHERE match_api_id=?)", (match_id,))
         thuis_team = thuis_team.fetchall()
         uit_team = c.execute("SELECT team_long_name FROM Team WHERE team_api_id IN(SELECT away_team_api_id from Match WHERE match_api_id=?)",(match_id,))
@@ -311,7 +299,6 @@ def Match(request):
         away_pos = 100 - int(home_pos)
 
         btu = request.POST.get('radio')
-        print(btu)
 
         if btu == "Beide":
             return render(request, 'Match.html', {
@@ -399,7 +386,6 @@ def Player(request, id):
     c = conn.cursor()
     attr = c.execute("SELECT DISTINCT MAX(overall_rating), preferred_foot, attacking_work_rate, defensive_work_rate, crossing, finishing, heading_accuracy, short_passing, volleys, dribbling, curve, free_kick_accuracy, long_passing, ball_control, acceleration, sprint_speed, agility, reactions, balance, shot_power, jumping, stamina, strength, long_shots, aggression, interceptions, positioning, vision, penalties, marking, standing_tackle, sliding_tackle, gk_diving, gk_handling, gk_kicking, gk_positioning, gk_reflexes FROM Player_Attributes WHERE player_api_id=?", (id,))
     attr = attr.fetchall()
-    print(attr)
 
 
     return render(request, 'Player.html', {
@@ -409,6 +395,3 @@ def Player(request, id):
 
 def Home(request):
     return render(request, 'Home.html')
-
-
-
